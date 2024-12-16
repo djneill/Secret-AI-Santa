@@ -1,101 +1,181 @@
-import Image from "next/image";
+'use client';
+import React, { useEffect, useState, Suspense } from 'react';
+import { Gift, Users, DollarSign, Sparkles } from 'lucide-react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import dynamic from 'next/dynamic';
 
-export default function Home() {
+// Snow component with no SSR
+const Snow = dynamic(() => Promise.resolve(() => (
+  <div className="fixed inset-0 pointer-events-none">
+    {[...Array(50)].map((_, i) => (
+      <div
+        key={i}
+        className="absolute animate-fall"
+        style={{
+          left: `${Math.random() * 100}%`,
+          animationDelay: `${Math.random() * 5}s`,
+          animationDuration: `${Math.random() * 3 + 5}s`,
+          opacity: Math.random(),
+          width: `${Math.random() * 5 + 3}px`,
+          height: `${Math.random() * 5 + 3}px`
+        }}
+      >
+        <div className="h-full w-full bg-white rounded-full" />
+      </div>
+    ))}
+  </div>
+)), {
+  ssr: false
+});
+
+const LandingPage = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Snow Effect */}
+      <Suspense fallback={null}>
+        <Snow />
+      </Suspense>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Hero Section */}
+      <div className="bg-gradient-to-bl from-red-600 to-green-700 text-white overflow-hidden">
+        <div className="container mx-auto px-6 py-24">
+          <div className="max-w-3xl mx-auto text-center">
+            <h1
+              className={`text-5xl font-bold mb-6 transition-all duration-1000 transform
+                ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+            >
+              Elecretanta
+            </h1>
+            <p
+              className={`text-xl mb-8 transition-all duration-1000 delay-300 transform
+                ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+            >
+              The AI-powered Secret Santa platform that makes gift-giving magical.
+              Never worry about finding the perfect gift again.
+            </p>
+            <div
+              className={`flex gap-4 justify-center transition-all duration-1000 delay-500 transform
+                ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+            >
+              <Link href={'/signin'}>
+                <Button
+                  variant={'outline'}
+                  className="bg-white text-red-600 hover:text-white hover:bg-red-600 transform hover:scale-105 transition-transform duration-200"
+                >
+                  Get Started
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </div>
+
+      {/* Main Feature Section */}
+      <div className="bg-white py-20 relative">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className={`text-3xl font-bold mb-4 transition-all duration-700 transform
+              ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+            >
+              Spread Joy
+            </h2>
+            <p className={`text-xl text-gray-600 max-w-2xl mx-auto transition-all duration-700 delay-200 transform
+              ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+            >
+              Everything you need for the perfect Secret Santa
+            </p>
+            <p className={`text-gray-600 mt-2 transition-all duration-700 delay-300 transform
+              ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+            >
+              Let our magical elves help you find the perfect gift for your Secret Santa recipient.
+            </p>
+          </div>
+
+          {/* Features Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
+            {/* Your existing feature cards */}
+            {/* AI Feature */}
+            <div
+              className={`bg-red-50 rounded-lg p-6 text-center transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl
+                ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
+              style={{ transitionDelay: '100ms' }}
+            >
+              <div className="bg-red-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Sparkles className="h-6 w-6 text-red-600 animate-pulse" />
+              </div>
+              <h3 className="font-semibold text-lg mb-2">AI-Powered Gift Suggestions</h3>
+              <p className="text-gray-600">
+                Our Elf Secret Santa AI technology analyzes preferences to find the perfect gift.
+              </p>
+            </div>
+
+            {/* Profile Feature */}
+            <div
+              className={`bg-green-50 rounded-lg p-6 text-center transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl
+                ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
+              style={{ transitionDelay: '100ms' }}
+            >
+              <div className="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Gift className="h-6 w-6 text-green-600 animate-bounce" />
+              </div>
+              <h3 className="font-semibold text-lg mb-2">Personal Profiles</h3>
+              <p className="text-gray-600">
+                Create and customize your profile with interests, hobbies, and wishlist items.
+              </p>
+            </div>
+
+            {/* Group Feature */}
+            <div
+              className={`bg-blue-50 rounded-lg p-6 text-center transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl
+                ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
+              style={{ transitionDelay: '100ms' }}
+            >
+              <div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Users className="h-6 w-6 text-blue-600 animate-bounce" />
+              </div>
+              <h3 className="font-semibold text-lg mb-2">Group Management</h3>
+              <p className="text-gray-600">
+                Easily create and manage Secret Santa groups with custom budgets.
+              </p>
+            </div>
+
+            {/* Budget Feature */}
+            <div
+              className={`bg-yellow-50 rounded-lg p-6 text-center transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl
+                ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
+              style={{ transitionDelay: '100ms' }}
+            >
+              <div className="bg-yellow-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                <DollarSign className="h-6 w-6 text-yellow-600 animate-pulse hover:animate-spin" />
+              </div>
+              <h3 className="font-semibold text-lg mb-2">Budget Control</h3>
+              <p className="text-gray-600">
+                Set and manage gift budgets to ensure everyone stays within limits.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="bg-gray-50 py-8 relative">
+        <div className="container mx-auto px-6 text-center text-gray-600">
+          <p className={`transition-all duration-700 transform
+            ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+          >
+            © 2024 Elecretanta. Let&apos;s make gift-giving magical together! 🎄
+          </p>
+        </div>
       </footer>
     </div>
   );
-}
+};
+
+export default LandingPage;
