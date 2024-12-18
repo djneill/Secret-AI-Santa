@@ -153,7 +153,9 @@ export async function signUpWithGithub() {
 
 export async function signUpWithGoogle() {
     const { account } = await createAdminClient();
-    const origin = (await headers()).get("origin") || 'http://localhost:3000';
+    const prodUrl = 'https://secret-ai-santa.vercel.app';
+    const origin = process.env.NODE_ENV === 'production' ? prodUrl : 'http://localhost:3000';
+    // const origin = (await headers()).get("origin") || 'http://localhost:3000';
 
     const redirectUrl = await account.createOAuth2Token(
         OAuthProvider.Google,

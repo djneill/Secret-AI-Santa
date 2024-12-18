@@ -28,6 +28,7 @@ export default {
 				'wrapping-paper': "url('/images/wrappingPaper.png')",
 				'green-paper': "url('/images/wrappingPaperGreen.png')",
 				'present': "url('/images/present.jpg')",
+				'village': "url('/images/StockCake-Snowy.jpg')",
 			},
 			colors: {
 				background: 'hsl(var(--background))',
